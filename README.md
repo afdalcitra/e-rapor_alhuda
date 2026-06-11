@@ -37,11 +37,9 @@ Role-based access:
 - Database: MySQL
 - Frontend: Blade + TailwindCSS
 
-| 📦 Struktur Role |     |
-| :--------------- | :-- |
-
-| Role    | Akses                                  |
-| :------ | :------------------------------------- |
-| Admin   | CRUD pengguna dan nilai guru           |
-| Yayasan | Melihat grafik dan memverifikasi nilai |
-| Guru    | Melihat dan mengunduh rapor pribadi    |
+| 📦 Struktur Role |                                        |
+| :--------------- | :------------------------------------- |
+| Role             | Akses                                  |
+| Admin            | CRUD pengguna dan nilai guru           |
+| Yayasan          | Melihat grafik dan memverifikasi nilai |
+| Guru             | Melihat dan mengunduh rapor pribadi    |
