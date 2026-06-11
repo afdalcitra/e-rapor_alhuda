@@ -1,27 +1,30 @@
-#Rapor Digital Guru – Al-Huda Citra Utama
+# Rapor Digital Guru – Al-Huda Citra Utama
 
 Aplikasi berbasis web untuk pengelolaan dan distribusi nilai rapor guru secara online. Sistem ini menggantikan proses rapor berbasis kertas sehingga guru dapat melihat hasil penilaian kapan saja dan di mana saja.
-#✨ Fitur Utama
-##🔐 Authentication & Authorization
+
+# ✨ Fitur Utama
+
+## 🔐 Authentication & Authorization
+
 Role-based access:
 
 - Admin
 - Yayasan
 - Guru
 
-##👨‍💼 Admin
+## 👨‍💼 Admin
 
 - Mengelola data pengguna
 - Menginput dan mengubah nilai guru
 - Mengelola status verifikasi rapor
 
-##🏛️ Yayasan
+## 🏛️ Yayasan
 
 - Melihat grafik performa guru
 - Melihat detail nilai per guru
 - Memberikan ACC/verifikasi rapor
 
-##👨‍🏫 Guru
+## 👨‍🏫 Guru
 
 - Melihat dashboard performa pribadi
 - Melihat ringkasan nilai
@@ -34,9 +37,11 @@ Role-based access:
 - Database: MySQL
 - Frontend: Blade + TailwindCSS
 
-| 📦 Struktur Role | |
+| 📦 Struktur Role |     |
+| :--------------- | :-- |
 
-| Role | Akses |
-| Admin | CRUD pengguna dan nilai guru |
+| Role    | Akses                                  |
+| :------ | :------------------------------------- |
+| Admin   | CRUD pengguna dan nilai guru           |
 | Yayasan | Melihat grafik dan memverifikasi nilai |
-| Guru | Melihat dan mengunduh rapor pribadi |
+| Guru    | Melihat dan mengunduh rapor pribadi    |
