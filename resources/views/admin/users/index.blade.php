@@ -212,7 +212,7 @@
                 </div>
                 <div class="flex-grow-1 overflow-hidden">
                     <div class="user-name">{{ $user->nama_lengkap }}</div>
-                    <div class="user-meta">NIPY {{ $user->nipy }}</div>
+                    <div class="user-meta">{{ $user->nipy }}</div>
                 </div>
                 <span class="badge-pill {{ $user->status == 'aktif' ? 'badge-aktif' : 'badge-nonaktif' }}">
                     {{ $user->status_label }}
@@ -233,7 +233,7 @@
                 </div>
                 <div class="flex-grow-1 overflow-hidden">
                     <div class="user-name">{{ $user->nama_lengkap }}</div>
-                    <div class="user-meta">NIPY {{ $user->nipy }}</div>
+                    <div class="user-meta">{{ $user->nipy }}</div>
                 </div>
                 <span class="badge-pill {{ $user->status == 'aktif' ? 'badge-aktif' : 'badge-nonaktif' }}">
                     {{ $user->status_label }}
@@ -254,7 +254,7 @@
                 </div>
                 <div class="flex-grow-1 overflow-hidden">
                     <div class="user-name">{{ $user->nama_lengkap }}</div>
-                    <div class="user-meta">NIPY {{ $user->nipy }}{{ $user->jabatan ? ' · ' . $user->jabatan : '' }}</div>
+                    <div class="user-meta">{{ $user->nipy }}{{ $user->jabatan ? ' · ' . $user->jabatan : '' }}</div>
                 </div>
                 <span class="badge-pill {{ $user->status == 'aktif' ? 'badge-aktif' : 'badge-nonaktif' }}">
                     {{ $user->status_label }}
