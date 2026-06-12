@@ -11,7 +11,7 @@
 
     <style>
         .stat-card {
-            background: #F9FAFB;
+            background: #fff;
             border-radius: 10px;
             padding: 14px 16px;
         }
@@ -104,7 +104,7 @@
     {{-- Header --}}
     <div class="mb-4">
         <h5 class="fw-semibold mb-1">
-            Selamat datang, {{ auth()->user()->nama_lengkap }} 👋
+            Selamat datang, <span class="uppercase">{{ auth()->user()->nama_lengkap }}</span>
         </h5>
         <p class="text-muted small mb-0">Berikut ringkasan kondisi sistem hari ini.</p>
         <p class="text-muted" style="font-size:11px;">{{ now()->translatedFormat('l, d F Y') }}</p>
