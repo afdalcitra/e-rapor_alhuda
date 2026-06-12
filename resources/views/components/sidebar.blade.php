@@ -14,12 +14,14 @@
 
     @if(auth()->user()->role == 'admin')
 
-        <a href="#" class="menu-link">
+        <a href="{{ route('admin.dashboard') }}"
+            class="menu-link {{ request()->routeIs('admin.dashboard') ? 'active-menu' : '' }}">
             <i class="bi bi-grid-fill"></i>
             Dashboard
         </a>
 
-        <a href="#" class="menu-link">
+        <a href="{{ route('admin.users.index') }}"
+            class="menu-link {{ request()->routeIs('admin.users.*') ? 'active-menu' : '' }}">
             <i class="bi bi-people-fill"></i>
             User
         </a>
@@ -88,5 +90,10 @@
     .menu-link:hover {
         background: #2563eb;
         color: white;
+    }
+
+    .active-menu {
+        background: #2563eb;
+        color: white !important;
     }
 </style>

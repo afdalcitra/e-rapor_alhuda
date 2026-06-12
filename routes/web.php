@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\admin\DashboardController;
+
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::middleware('guest')->group(function () {
 
@@ -12,10 +15,22 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'authenticate']);
 });
 
-Route::middleware('auth')
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware([
+        'auth',
+        'role:admin'
+    ])
     ->group(function () {
 
-        Route::get('/dashboard', [DashboardController::class, 'index']);
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard');
+
+        Route::resource('users', UserController::class)
+            ->except([
+                'show',
+                'destroy',
+            ]);
     });
 
 Route::post('/logout', [LoginController::class, 'logout'])

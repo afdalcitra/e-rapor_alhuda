@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(nilai_guru::class, 'guru_id');
     }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return ucwords(str_replace('_', ' ', $this->status));
+    }
 }
