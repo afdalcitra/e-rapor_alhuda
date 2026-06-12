@@ -82,7 +82,7 @@ class UserController extends Controller
         User::create($validated);
 
         return redirect()
-            ->route('users.index')
+            ->route('admin.users.index')
             ->with('success', 'User berhasil ditambahkan.');
     }
 
