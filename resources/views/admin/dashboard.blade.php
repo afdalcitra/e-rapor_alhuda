@@ -11,7 +11,7 @@
 
     <style>
         .stat-card {
-            background: #fff;
+            background: #F9FAFB;
             border-radius: 10px;
             padding: 14px 16px;
         }
@@ -104,7 +104,7 @@
     {{-- Header --}}
     <div class="mb-4">
         <h5 class="fw-semibold mb-1">
-            Selamat datang, <span class="uppercase">{{ auth()->user()->nama_lengkap }}</span>
+            Selamat datang, {{ auth()->user()->nama_lengkap }} 👋
         </h5>
         <p class="text-muted small mb-0">Berikut ringkasan kondisi sistem hari ini.</p>
         <p class="text-muted" style="font-size:11px;">{{ now()->translatedFormat('l, d F Y') }}</p>
@@ -112,24 +112,6 @@
 
     {{-- Stat cards --}}
     <div class="row g-3 mb-4">
-
-        <!-- Total Admin -->
-        <div class="col-6 col-md-3">
-            <div class="stat-card">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="text-muted mb-1" style="font-size:12px;">Total Admin</p>
-                        <h3 class="fw-semibold mb-0">{{ $totalAdmin ?? 0 }}</h3>
-                    </div>
-                    <div class="stat-icon ic-coral">
-                        <i class="bi bi-shield-check"></i>
-                    </div>
-                </div>
-                <p class="text-muted mt-2 mb-0" style="font-size:11px;">{{ $adminTidakAktif ?? 0 }} tidak aktif</p>
-            </div>
-        </div>
-
-        <!-- Total Guru -->
         <div class="col-6 col-md-3">
             <div class="stat-card">
                 <div class="d-flex justify-content-between align-items-start">
@@ -145,7 +127,27 @@
             </div>
         </div>
 
-        <!-- Total Yayasan -->
+        <div class="col-6 col-md-3">
+            <a href="{{ route('admin.nilai-guru.index', ['tahun_ajaran' => $periodeAktif->tahun_ajaran ?? '', 'semester' => $periodeAktif->semester ?? '']) }}"
+                class="text-decoration-none text-reset">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="text-muted mb-1" style="font-size:12px;">Belum Input Nilai</p>
+                            <h3 class="fw-semibold mb-0">{{ $guruBelumInputNilai ?? 0 }}</h3>
+                        </div>
+                        <div class="stat-icon ic-amber">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                    </div>
+                    <p class="text-muted mt-2 mb-0" style="font-size:11px;">
+                        Periode {{ $periodeAktif->tahun_ajaran ?? '-' }} ·
+                        {{ ucfirst($periodeAktif->semester ?? '-') }}
+                    </p>
+                </div>
+            </a>
+        </div>
+
         <div class="col-6 col-md-3">
             <div class="stat-card">
                 <div class="d-flex justify-content-between align-items-start">
@@ -161,19 +163,18 @@
             </div>
         </div>
 
-        <!-- Menunggu Verifikasi -->
         <div class="col-6 col-md-3">
             <div class="stat-card">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <p class="text-muted mb-1" style="font-size:12px;">Menunggu Verifikasi</p>
-                        <h3 class="fw-semibold mb-0">{{ $menungguVerifikasi ?? 0 }}</h3>
+                        <p class="text-muted mb-1" style="font-size:12px;">Total Admin</p>
+                        <h3 class="fw-semibold mb-0">{{ $totalAdmin ?? 0 }}</h3>
                     </div>
-                    <div class="stat-icon ic-amber">
-                        <i class="bi bi-clock-history"></i>
+                    <div class="stat-icon ic-coral">
+                        <i class="bi bi-shield-check"></i>
                     </div>
                 </div>
-                <p class="text-muted mt-2 mb-0" style="font-size:11px;">Perlu ditinjau segera</p>
+                <p class="text-muted mt-2 mb-0" style="font-size:11px;">{{ $adminTidakAktif ?? 0 }} tidak aktif</p>
             </div>
         </div>
     </div>
@@ -219,23 +220,24 @@
                         <i class="bi bi-lightning-charge me-1"></i> Akses Cepat
                     </h6>
 
-                    <a href="{{ route('admin.users.index') }}" class="quick-btn">
-                        <div class="quick-btn-icon ic-teal"><i class="bi bi-people"></i></div>
-                        <span style="font-size:13px; flex:1;">Manajemen guru</span>
-                        <i class="bi bi-chevron-right text-muted" style="font-size:12px;"></i>
-                    </a>
-
                     <a href="{{ route('admin.users.create') }}" class="quick-btn">
                         <div class="quick-btn-icon ic-purple"><i class="bi bi-person-plus"></i></div>
                         <span style="font-size:13px; flex:1;">Tambah user baru</span>
                         <i class="bi bi-chevron-right text-muted" style="font-size:12px;"></i>
                     </a>
 
-                    <a href="#" class="quick-btn">
-                        <div class="quick-btn-icon ic-amber"><i class="bi bi-clock-history"></i></div>
-                        <span style="font-size:13px; flex:1;">Tinjau verifikasi</span>
+                    <a href="{{ route('admin.users.index') }}" class="quick-btn">
+                        <div class="quick-btn-icon ic-teal"><i class="bi bi-people"></i></div>
+                        <span style="font-size:13px; flex:1;">Manajemen guru</span>
                         <i class="bi bi-chevron-right text-muted" style="font-size:12px;"></i>
                     </a>
+
+                    <a href="{{ route('admin.nilai-guru.index') }}" class="quick-btn">
+                        <div class="quick-btn-icon ic-amber"><i class="bi bi-clock-history"></i></div>
+                        <span style="font-size:13px; flex:1;">Nilai Guru</span>
+                        <i class="bi bi-chevron-right text-muted" style="font-size:12px;"></i>
+                    </a>
+
 
                     {{-- Tambah route lain sesuai kebutuhan --}}
                     <a href="#" class="quick-btn">

@@ -55,10 +55,17 @@ Route::prefix('admin')
                 'destroy',
             ]);
 
+        // PENTING: route ini harus didaftarkan SEBELUM Route::resource('nilai-guru', ...)
+        // supaya tidak konflik dengan path /nilai-guru/{nilaiGuru} milik resource.
+        // Nama route TIDAK perlu diawali "admin." lagi karena group di atas
+        // sudah otomatis menambahkan prefix nama "admin." untuk semua route di dalamnya.
+        Route::post('/nilai-guru/set-periode-aktif', [NilaiGuruController::class, 'setPeriodeAktif'])
+            ->name('nilai-guru.set-periode-aktif');
+
         Route::resource('nilai-guru', NilaiGuruController::class)
             ->except([
                 'show',
-                'destroy'
+                'destroy',
             ]);
     });
 

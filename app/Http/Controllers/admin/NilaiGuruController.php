@@ -6,13 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\NilaiGuru;
 use App\Models\User;
+use App\Models\PeriodeAktif;
 
 class NilaiGuruController extends Controller
 {
     public function index(Request $request)
     {
-        $tahunAjaran = $request->get('tahun_ajaran', date('Y') . '/' . (date('Y') + 1));
-        $semester = $request->get('semester', 'ganjil');
+        $periodeAktif = PeriodeAktif::aktif();
+
+        // Filter di halaman ini boleh berbeda dari periode aktif (untuk lihat data lama),
+        // tapi defaultnya selalu mengikuti periode aktif.
+        $tahunAjaran = $request->get('tahun_ajaran', $periodeAktif->tahun_ajaran);
+        $semester = $request->get('semester', $periodeAktif->semester);
 
         $daftarTahunAjaran = NilaiGuru::select('tahun_ajaran')
             ->distinct()
@@ -47,7 +52,30 @@ class NilaiGuruController extends Controller
             'totalGuruAktif' => $guruAktif->count(),
             'guruSudahInput' => $guruSudahInput,
             'guruBelumInput' => $guruBelumInput,
+            'periodeAktif' => $periodeAktif,
         ]);
+    }
+
+    /**
+     * Set periode (tahun ajaran + semester) yang sedang ditampilkan
+     * menjadi periode aktif sistem. Dipanggil dari tombol
+     * "Jadikan periode aktif" di halaman index.
+     */
+    public function setPeriodeAktif(Request $request)
+    {
+        $validated = $request->validate([
+            'tahun_ajaran' => 'required|string',
+            'semester' => 'required|in:ganjil,genap',
+        ]);
+
+        PeriodeAktif::setAktif($validated['tahun_ajaran'], $validated['semester']);
+
+        return redirect()
+            ->route('admin.nilai-guru.index', [
+                'tahun_ajaran' => $validated['tahun_ajaran'],
+                'semester' => $validated['semester'],
+            ])
+            ->with('success', 'Periode aktif berhasil diperbarui.');
     }
 
     public function create()

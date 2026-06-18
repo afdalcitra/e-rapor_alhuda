@@ -184,24 +184,48 @@
     @endif
 
     {{-- Filter periode --}}
-    <form method="GET" class="filter-bar">
-        <div>
-            <label>Tahun ajaran</label>
-            <select name="tahun_ajaran" class="form-select form-select-sm d-inline-block w-auto"
-                onchange="this.form.submit()">
-                @foreach($daftarTahunAjaran as $ta)
-                    <option value="{{ $ta }}" @selected($tahunAjaran == $ta)>{{ $ta }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div>
-            <label>Semester</label>
-            <select name="semester" class="form-select form-select-sm d-inline-block w-auto" onchange="this.form.submit()">
-                <option value="ganjil" @selected($semester == 'ganjil')>Ganjil</option>
-                <option value="genap" @selected($semester == 'genap')>Genap</option>
-            </select>
-        </div>
-    </form>
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+        <form method="GET" class="filter-bar mb-0">
+            <div>
+                <label>Tahun ajaran</label>
+                <select name="tahun_ajaran" class="form-select form-select-sm d-inline-block w-auto"
+                    onchange="this.form.submit()">
+                    @foreach($daftarTahunAjaran as $ta)
+                        <option value="{{ $ta }}" @selected($tahunAjaran == $ta)>{{ $ta }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label>Semester</label>
+                <select name="semester" class="form-select form-select-sm d-inline-block w-auto"
+                    onchange="this.form.submit()">
+                    <option value="ganjil" @selected($semester == 'ganjil')>Ganjil</option>
+                    <option value="genap" @selected($semester == 'genap')>Genap</option>
+                </select>
+            </div>
+        </form>
+
+        @if($tahunAjaran == $periodeAktif->tahun_ajaran && $semester == $periodeAktif->semester)
+            <span class="badge-pill" style="background:#DCFCE7; color:#15803D; padding:6px 14px;">
+                <i class="bi bi-check-circle"></i> Ini periode aktif
+            </span>
+        @else
+            <form method="POST" action="{{ route('admin.nilai-guru.set-periode-aktif') }}">
+                @csrf
+                <input type="hidden" name="tahun_ajaran" value="{{ $tahunAjaran }}">
+                <input type="hidden" name="semester" value="{{ $semester }}">
+                <button type="submit" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-flag"></i> Jadikan periode aktif
+                </button>
+            </form>
+        @endif
+    </div>
+
+    <p class="text-muted mb-4" style="font-size:12px;">
+        Periode aktif sistem saat ini:
+        <strong>{{ $periodeAktif->tahun_ajaran }} · {{ ucfirst($periodeAktif->semester) }}</strong>
+        — ini yang dipakai di kartu "Belum Input Nilai" pada dashboard.
+    </p>
 
     {{-- Summary cards --}}
     <div class="row g-3 mb-4">

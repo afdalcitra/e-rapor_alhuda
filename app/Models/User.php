@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     public function nilaiGurus()
     {
-        return $this->hasMany(nilai_guru::class, 'guru_id');
+        return $this->hasMany(NilaiGuru::class, 'guru_id');
     }
 
     public function getStatusLabelAttribute(): string
