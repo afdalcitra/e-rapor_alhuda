@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 
 #[Fillable([
     'guru_id',
@@ -26,12 +28,15 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
     'status_verifikasi',
 
     'diverifikasi_oleh',
+
+    'dikirim_pada',
     'diverifikasi_pada',
 
+    'catatan_admin',
     'catatan_yayasan'
 ])]
 
-class nilai_guru extends Model
+class NilaiGuru extends Model
 {
     protected function casts(): array
     {
@@ -51,19 +56,33 @@ class nilai_guru extends Model
         return $this->belongsTo(User::class, 'diverifikasi_oleh');
     }
 
-    protected function totalNilai(): Attribute
+    public function hitungTotalNilai(): float
     {
-        return Attribute::make(
-            get: fn() => collect([
-                $this->nilai_tahsin,
-                $this->nilai_upp,
-                $this->nilai_ortu,
-                $this->nilai_teman,
-                $this->nilai_disiplin,
-                $this->nilai_absen,
-                $this->nilai_ajar,
-                $this->nilai_supervisi,
-            ])->avg(),
-        );
+        return round(collect([
+            $this->nilai_tahsin,
+            $this->nilai_upp,
+            $this->nilai_ortu,
+            $this->nilai_teman,
+            $this->nilai_disiplin,
+            $this->nilai_absen,
+            $this->nilai_ajar,
+            $this->nilai_supervisi,
+        ])->avg(), 2);
+    }
+
+    public function hitungPredikat(): string
+    {
+        $total = $this->hitungTotalNilai();
+
+        return match (true) {
+
+            $total >= 90 => 'A',
+
+            $total >= 80 => 'B',
+
+            $total >= 70 => 'C',
+
+            default => 'D',
+        };
     }
 }

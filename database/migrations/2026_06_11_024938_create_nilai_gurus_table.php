@@ -23,14 +23,14 @@ return new class extends Migration {
                 'genap'
             ]);
 
-            $table->unsignedTinyInteger('nilai_tahsin');
-            $table->unsignedTinyInteger('nilai_upp');
-            $table->unsignedTinyInteger('nilai_ortu');
-            $table->unsignedTinyInteger('nilai_teman');
-            $table->unsignedTinyInteger('nilai_disiplin');
-            $table->unsignedTinyInteger('nilai_absen');
-            $table->unsignedTinyInteger('nilai_ajar');
-            $table->unsignedTinyInteger('nilai_supervisi');
+            $table->decimal('nilai_tahsin');
+            $table->decimal('nilai_upp');
+            $table->decimal('nilai_ortu');
+            $table->decimal('nilai_teman');
+            $table->decimal('nilai_disiplin');
+            $table->decimal('nilai_absen');
+            $table->decimal('nilai_ajar');
+            $table->decimal('nilai_supervisi');
 
             $table->decimal('total_nilai', 5, 2)->nullable();
             $table->string('predikat')->nullable();
@@ -46,8 +46,10 @@ return new class extends Migration {
                 ->nullable()
                 ->constrained('users');
 
+            $table->timestamp('dikirim_pada')->nullable();
             $table->timestamp('diverifikasi_pada')->nullable();
 
+            $table->text('catatan_admin')->nullable();
             $table->text('catatan_yayasan')->nullable();
 
             $table->timestamps();

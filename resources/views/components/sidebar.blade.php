@@ -26,7 +26,8 @@
             User
         </a>
 
-        <a href="#" class="menu-link">
+        <a href="{{ route('admin.nilai-guru.index') }}"
+            class="menu-link {{ request()->routeIs('admin.nilai-guru.*') ? 'active-menu' : '' }}">
             <i class="bi bi-journal-check"></i>
             Nilai Guru
         </a>
