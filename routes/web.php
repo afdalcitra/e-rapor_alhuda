@@ -2,28 +2,30 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
-
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\NilaiGuruController;
+use App\Http\Controllers\yayasan\YayasanController;
+use App\Http\Controllers\guru\GuruController;
 
 Route::get('/', function () {
 
-    if (!auth()->check()) {
+    if (!Auth::check()) {
         return redirect()->route('login');
     }
 
-    return match (auth()->user()->role) {
+    return match (Auth::user()->role) {
 
         'admin' =>
         redirect()->route('admin.dashboard'),
 
         'yayasan' =>
-        redirect()->route('yayasan.dashboard'),
+        redirect()->route('yayasan.index'),
 
         'guru' =>
-        redirect()->route('guru.dashboard'),
+        redirect()->route('guru.index'),
 
         default =>
         redirect()->route('login'),

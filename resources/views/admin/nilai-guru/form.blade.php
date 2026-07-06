@@ -83,6 +83,31 @@
     </div>
 </div>
 
+{{-- Pesan Ditolak Jika ada --}}
+@if(isset($nilaiGuru) && $nilaiGuru->status_verifikasi === 'ditolak')
+    <div class="section-card" style="border-left:4px solid #DC2626;">
+        <div class="section-title text-danger">
+            Catatan Yayasan
+        </div>
+
+        <div class="alert alert-danger mb-0">
+            <div class="fw-semibold mb-2">
+                Penilaian ini ditolak oleh Yayasan
+            </div>
+
+            @if($nilaiGuru->catatan_yayasan)
+                <p class="mb-0">
+                    {{ $nilaiGuru->catatan_yayasan }}
+                </p>
+            @else
+                <span class="text-muted">
+                    Tidak ada catatan dari Yayasan.
+                </span>
+            @endif
+        </div>
+    </div>
+@endif
+
 {{-- Komponen nilai --}}
 <div class="section-card">
     <div class="section-title">Komponen nilai (skala 0–100)</div>

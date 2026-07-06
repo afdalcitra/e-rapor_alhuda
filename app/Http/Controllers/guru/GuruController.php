@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\guru;
 
+use App\Http\Controllers\Controller;
 use App\Models\NilaiGuru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

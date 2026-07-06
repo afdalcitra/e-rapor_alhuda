@@ -107,7 +107,11 @@ class NilaiGuruController extends Controller
             'nilai_absen' => 'required|numeric|min:0|max:100',
             'nilai_ajar' => 'required|numeric|min:0|max:100',
             'nilai_supervisi' => 'required|numeric|min:0|max:100',
+
+            'catatan_admin' => 'nullable|string|max:255',
         ]);
+
+        $validated['status_verifikasi'] = 'menunggu';
 
         $nilaiGuru = new NilaiGuru($validated);
 
@@ -158,7 +162,11 @@ class NilaiGuruController extends Controller
             'nilai_absen' => 'required|numeric|min:0|max:100',
             'nilai_ajar' => 'required|numeric|min:0|max:100',
             'nilai_supervisi' => 'required|numeric|min:0|max:100',
+
+            'catatan_admin' => 'nullable|string|max:255',
         ]);
+
+        $validated['status_verifikasi'] = 'menunggu';
 
         // isi model dengan data baru
         $nilaiGuru->fill($validated);

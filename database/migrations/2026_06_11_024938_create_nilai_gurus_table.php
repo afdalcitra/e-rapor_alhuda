@@ -40,7 +40,7 @@ return new class extends Migration {
                 'menunggu',
                 'disetujui',
                 'ditolak'
-            ])->default('draft');
+            ])->default('menunggu');
 
             $table->foreignId('diverifikasi_oleh')
                 ->nullable()
