@@ -69,6 +69,21 @@ Route::prefix('admin')
             ]);
     });
 
+// ─── Yayasan ──────────────────────────────────────────────────
+Route::prefix('yayasan')->name('yayasan.')->middleware(['auth', 'role:yayasan'])->group(function () {
+    Route::get('/', [YayasanController::class, 'index'])->name('index');
+    Route::post('/verify/{nilaiGuru}', [YayasanController::class, 'verify'])->name('verify');
+    Route::post('/reject/{nilaiGuru}', [YayasanController::class, 'reject'])->name('reject');
+    Route::post('/bulk-verify', [YayasanController::class, 'bulkVerify'])->name('bulk-verify');
+    Route::post('/bulk-reject', [YayasanController::class, 'bulkReject'])->name('bulk-reject');
+});
+
+// ─── Guru ──────────────────────────────────────────────────────
+Route::prefix('guru')->name('guru.')->middleware(['auth', 'role:guru'])->group(function () {
+    Route::get('/', [GuruController::class, 'index'])->name('index');
+    Route::get('/pdf/{nilaiGuru}', [GuruController::class, 'downloadPdf'])->name('pdf');
+});
+
 Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
