@@ -183,7 +183,7 @@
                                         <span class="text-muted">—</span>
                                     @endif
                                 </td>
-                                <td>{{ $nilai->dikirim_pada?->format('d M Y') ?? '—' }}</td>
+                                <td>{{ $nilai->updated_at?->format('d M Y') ?? '—' }}</td>
                                 <td>{{ $nilai->diverifikasi_pada?->format('d M Y') ?? '—' }}</td>
                                 <td>
                                     @if ($nilai->catatan_yayasan)

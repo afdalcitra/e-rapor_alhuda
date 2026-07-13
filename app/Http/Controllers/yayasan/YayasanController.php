@@ -14,40 +14,44 @@ class YayasanController extends Controller
     // ── Dashboard Verifikasi ──────────────────────────────
 
     public function index(Request $request)
-    {
-        $tahunAjaranList = NilaiGuru::select('tahun_ajaran')
-            ->distinct()
-            ->orderByDesc('tahun_ajaran')
-            ->pluck('tahun_ajaran');
-
-        $filterTahun = $request->input('tahun_ajaran');
-        $filterSemester = $request->input('semester');
-
-        $query = NilaiGuru::with(['guru', 'verifikator'])
-            ->whereIn('status_verifikasi', ['menunggu', 'disetujui', 'ditolak'])
-            ->when($filterTahun, fn($q) => $q->where('tahun_ajaran', $filterTahun))
-            ->when($filterSemester, fn($q) => $q->where('semester', $filterSemester));
-
-        // Summary untuk metric card
-        $summary = (clone $query)
-            ->select('status_verifikasi', DB::raw('count(*) as total'))
-            ->groupBy('status_verifikasi')
-            ->pluck('total', 'status_verifikasi');
-
-        $nilaiGurus = (clone $query)
-            ->where('status_verifikasi', 'menunggu')
-            ->latest('dikirim_pada')
-            ->paginate(20)
-            ->withQueryString();
-
-        return view('yayasan.index', compact(
-            'nilaiGurus',
-            'tahunAjaranList',
-            'filterTahun',
-            'filterSemester',
-            'summary',
-        ));
-    }
+{
+    $filterTahun    = $request->get('tahun_ajaran');
+    $filterSemester = $request->get('semester');
+ 
+    $tahunAjaranList = NilaiGuru::select('tahun_ajaran')
+        ->distinct()
+        ->orderByDesc('tahun_ajaran')
+        ->pluck('tahun_ajaran');
+ 
+    // Query dasar: filter tahun & semester kalau dipilih
+    $base = NilaiGuru::with('guru')
+        ->when($filterTahun,    fn($q) => $q->where('tahun_ajaran', $filterTahun))
+        ->when($filterSemester, fn($q) => $q->where('semester', $filterSemester))
+        ->latest();
+ 
+    // Masing-masing status dipaginasi terpisah dengan append filter
+    $menunggu  = (clone $base)->where('status_verifikasi', 'menunggu')
+        ->paginate(10, ['*'], 'page_menunggu')
+        ->appends($request->only(['tahun_ajaran', 'semester']));
+ 
+    $disetujui = (clone $base)->where('status_verifikasi', 'disetujui')
+        ->paginate(10, ['*'], 'page_disetujui')
+        ->appends($request->only(['tahun_ajaran', 'semester']));
+ 
+    $ditolak   = (clone $base)->where('status_verifikasi', 'ditolak')
+        ->paginate(10, ['*'], 'page_ditolak')
+        ->appends($request->only(['tahun_ajaran', 'semester']));
+ 
+    return view('yayasan.index', compact(
+        'menunggu',
+        'disetujui',
+        'ditolak',
+        'filterTahun',
+        'filterSemester',
+        'tahunAjaranList',
+    ));
+}
+ 
 
     // ── Verifikasi satu entri ─────────────────────────────
 

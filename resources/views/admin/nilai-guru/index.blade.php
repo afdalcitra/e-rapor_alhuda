@@ -293,9 +293,13 @@
                             {{ ucwords(str_replace('_', ' ', $nilai->status_verifikasi)) }}
                         </span>
 
+                        @if ($nilai->status_verifikasi === 'disetujui')
+
+                        @else
                         <a href="{{ route('admin.nilai-guru.edit', $nilai) }}" class="btn-edit-modern">
                             <i class="bi bi-pencil"></i> Edit
                         </a>
+                        @endif
                     </div>
                 @empty
                     <p class="text-center text-muted py-4 mb-0">Belum ada nilai yang diinput untuk periode ini.</p>
